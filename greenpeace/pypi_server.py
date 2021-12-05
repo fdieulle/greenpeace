@@ -4,7 +4,6 @@ from yarg import json2package
 from yarg.exceptions import HTTPError
 
 
-
 def fetch_pypi_server(package, pypi_server:str='https://pypi.python.org/pypi', version=None, proxy=None):
     if pypi_server.endswith('/'):
         pypi_server = pypi_server[:-1]
