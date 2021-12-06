@@ -4,6 +4,7 @@ import glob
 import ast
 import logging
 from typing import List
+import json
 from greenpeace.pypi_server import package_exists
 
 
@@ -31,14 +32,31 @@ def list_base_packages():
     return packages
 
 
+def ipynd_to_py(file_path: str) -> str:
+    with open(file_path, 'r') as f:
+        data = json.load(f)
+        sources = [cell['source'] for cell in data['cells'] if cell['cell_type'] == 'code']
+
+        code = []
+        for source in sources:
+            [code.append(line) for line in source]
+            code.append('\n')
+        content = str.join('', code)
+    return content
+
+
 def get_imports(file_path: str) -> set[str]:
     if file_path is None or not os.path.exists(file_path):
         return set()
 
     imports = set()
     try:
-        with open(file_path, 'r') as f:
-            content = f.read()
+        if file_path.endswith(".ipynb"):
+            content = ipynd_to_py(file_path)
+        else:
+            with open(file_path, 'r') as f:
+                content = f.read()
+        
         tree = ast.parse(content)
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):

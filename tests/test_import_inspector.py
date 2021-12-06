@@ -13,6 +13,13 @@ def test_get_imports():
     assert imports == set(['math', 'numpy', 'pandas', 'random', 'datetime', 'greenpeace.pypi_server', '_other'])
 
 
+def test_get_imports_from_notebook():
+    py_file = __get_file('notebook.ipynb')
+    imports = get_imports(py_file)
+
+    assert imports == set(['numpy', 'pandas', 'random', 'greenpeace.pypi_server', '_other'])
+
+
 def test_to_package_candidates():
     candidates = to_package_candidates('numpy')
     assert candidates == ['numpy']
