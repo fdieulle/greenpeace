@@ -32,7 +32,7 @@ def list_base_packages():
     return packages
 
 
-def ipynd_to_py(file_path: str) -> str:
+def ipynb_to_py(file_path: str) -> str:
     with open(file_path, 'r') as f:
         data = json.load(f)
         sources = [cell['source'] for cell in data['cells'] if cell['cell_type'] == 'code']
@@ -52,7 +52,7 @@ def get_imports(file_path: str) -> set[str]:
     imports = set()
     try:
         if file_path.endswith(".ipynb"):
-            content = ipynd_to_py(file_path)
+            content = ipynb_to_py(file_path)
         else:
             with open(file_path, 'r') as f:
                 content = f.read()
