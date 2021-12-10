@@ -100,7 +100,7 @@ def to_package_candidates(module: str) -> List[str]:
     return result
 
 
-def inspect_imports(file_path: str, pypi_servers: List[str]=['https://pypi.python.org/pypi']):
+def inspect_imports(file_path: str, pypi_servers: List[str]=['https://pypi.python.org/pypi'], proxies=None):
     base_packages = list_base_packages()
     imports = get_imports(file_path)
 
@@ -126,7 +126,7 @@ def inspect_imports(file_path: str, pypi_servers: List[str]=['https://pypi.pytho
                 stack.append((new_import, py_file))
         elif module not in base_packages:
             candidates = to_package_candidates(module)
-            package_name = next((c for p in pypi_servers for c in candidates if package_exists(c, p)), None)
+            package_name = next((c for p in pypi_servers for c in candidates if package_exists(c, p, proxies=proxies)), None)
             if package_name is not None and package_name not in packages:
                 packages.add(package_name)
     
