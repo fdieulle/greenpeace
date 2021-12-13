@@ -4,7 +4,12 @@ from yarg import json2package
 from yarg.exceptions import HTTPError
 
 
-def fetch_pypi_server(package, pypi_server:str='https://pypi.python.org/pypi', version=None, proxies=None):
+def fetch_pypi_server(
+    package: str, 
+    pypi_server: str="https://pypi.python.org/pypi", 
+    version: str=None, 
+    proxies=None
+):
     if pypi_server.endswith('/'):
         pypi_server = pypi_server[:-1]
     
@@ -17,22 +22,34 @@ def fetch_pypi_server(package, pypi_server:str='https://pypi.python.org/pypi', v
             else:
                 data = json2package(response.content)
         elif response.status_code == 300:
-            logging.debug(f'Package {package} not found on {pypi_server}. Status: {response.status_code}, Reason: {response.reason}')
+            logging.debug(f"Package {package} not found on {pypi_server}. Status: {response.status_code}, Reason: {response.reason}")
             return None
         else:
-            logging.debug(f'Package {package} not found on {pypi_server} with version: {version}. Status: {response.status_code}, Reason: {response.reason}')
+            logging.debug(f"Package {package} not found on {pypi_server} with version: {version}. Status: {response.status_code}, Reason: {response.reason}")
             return None
     except HTTPError:
-        logging.debug(f'Package {package} does not exist on {pypi_server}')
+        logging.debug(f"Package {package} does not exist on {pypi_server}")
         return None
     
     return data
 
 
-def get_latest_version(package, pypi_server:str='https://pypi.python.org/pypi', proxies=None):
+def get_latest_version(
+    package: str, 
+    pypi_server: str="https://pypi.python.org/pypi", 
+    proxies=None,
+) -> str:
     data = fetch_pypi_server(package, pypi_server, proxies=proxies)
     return data.latest_release_id
 
 
-def package_exists(package, pypi_server:str='https://pypi.python.org/pypi', version=None, proxies=None):
-    return fetch_pypi_server(package, pypi_server, version=version, proxies=proxies) is not None
+def package_exists(
+    package: str, 
+    pypi_server:str="https://pypi.python.org/pypi", 
+    version: str=None, 
+    proxies=None,
+) -> bool:
+    return (
+        fetch_pypi_server(package, pypi_server, version=version, proxies=proxies) 
+        is not None
+    )

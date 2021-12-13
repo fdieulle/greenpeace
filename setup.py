@@ -2,20 +2,20 @@ from setuptools import setup, find_packages
 
 
 def readme():
-   with open('README.md', 'r', encoding='utf-8') as f:
+   with open("README.md", "r", encoding="utf-8") as f:
        return f.read()
 
 
 setup(
-    name='greenpeace',
-    author='Fabien Dieulle',
-    author_email='fabiendieulle@hotmail.fr',
-    description='Python environment clean up.',
+    name="greenpeace",
+    author="Fabien Dieulle",
+    author_email="fabiendieulle@hotmail.fr",
+    description="Python environment clean up.",
     long_description=readme(),
-    long_description_content_type='text/markdown',
-    url='https://github.com/fdieulle/greenpeace',
+    long_description_content_type="text/markdown",
+    url="https://github.com/fdieulle/greenpeace",
     packages=find_packages(),
-    install_requires=['request', 'yarg'],
+    install_requires=["request", "yarg"],
     zip_safe=False,
     classifiers=[
         "License :: OSI Approved :: MIT License",
@@ -26,5 +26,5 @@ setup(
         "Programming Language :: Python :: 3.9",
     ],
     use_scm_version=True,
-    setup_requires=['setuptools_scm']
+    setup_requires=["setuptools_scm"]
 )

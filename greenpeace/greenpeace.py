@@ -11,16 +11,25 @@ def __pin_packages(packages) -> Dict[str, Dict[str, str]]:
         if package in installed_packages:
             requirements[package] = installed_packages[package]
         else:
-            requirements[package] = { SPECIFIER: None, VERSION: None }
+            requirements[package] = {SPECIFIER: None, VERSION: None}
     return requirements
 
 
-def __merge(file_path: str, all_packages: set, all_modules: Dict, visited: set, pypi_servers: List[str], proxies=None):
+def __merge(
+    file_path: str, 
+    all_packages: set, 
+    all_modules: Dict, 
+    visited: set, 
+    pypi_servers: List[str], 
+    proxies=None,
+):
     file_path = os.path.normpath(file_path)
     if file_path in visited:
         return
 
-    packages, modules = inspect_imports(file_path, pypi_servers=pypi_servers, proxies=proxies)
+    packages, modules = inspect_imports(
+        file_path, pypi_servers=pypi_servers, proxies=proxies
+    )
     visited.add(file_path)
 
     # Merge modules
@@ -34,9 +43,9 @@ def __merge(file_path: str, all_packages: set, all_modules: Dict, visited: set, 
 
 
 def __create_folder(folder: str, force=True) -> str:
-    if folder is None or folder == '':
+    if folder is None or folder == "":
         return folder
-    
+
     if force and os.path.exists(folder):
         shutil.rmtree(folder, ignore_errors=True)
     if not os.path.exists(folder):
@@ -46,11 +55,12 @@ def __create_folder(folder: str, force=True) -> str:
 
 def cleanup_requirements(
     folder: str, 
-    pypi_servers: List[str]=['https://pypi.python.org/pypi'], 
+    pypi_servers: List[str]=["https://pypi.python.org/pypi"], 
     proxies=None, 
     pin_packages: bool=True, 
     output_path: str=None,
-    ignore_folders: List[str]=['__pycache__', 'venv', '.git', '.pytest_cache']):
+    ignore_folders: List[str]=["__pycache__", "venv", ".git", ".pytest_cache"],
+):
     
     ignore_folders if ignore_folders is not None else []
     ignore_regex = set([re.compile(f) for f in ignore_folders])
@@ -61,20 +71,34 @@ def cleanup_requirements(
             folders.clear()
             continue
 
-        [__merge(os.path.join(root, f), packages, modules, visited, pypi_servers, proxies) 
-            for f in files if f.endswith('.py') or f.endswith('.ipynb')]
+        [
+            __merge(
+                os.path.join(root, f), packages, modules, visited, pypi_servers, proxies
+            ) 
+            for f in files 
+            if f.endswith(".py") or f.endswith(".ipynb")
+        ]
 
     if pin_packages:
         packages = __pin_packages(packages)
 
-    requirements_file_path = os.path.join(folder, 'requirements.txt') if output_path is None else output_path
-    __create_folder(os.path.dirname(requirements_file_path), force=False)
+    file_path = os.path.join(folder, "requirements.txt")
+    file_path = file_path if output_path is None else output_path
+    __create_folder(os.path.dirname(file_path), force=False)
 
-    write_requirements(requirements_file_path, packages)
+    write_requirements(file_path, packages)
 
 
-def isolate(file_path: str, folder: str, pypi_servers: List[str]=['https://pypi.python.org/pypi'], proxies=None, pin_packages=True) -> None:
-    packages, modules = inspect_imports(file_path, pypi_servers=pypi_servers, proxies=proxies)
+def isolate(
+    file_path: str, 
+    folder: str, 
+    pypi_servers: List[str]=["https://pypi.python.org/pypi"], 
+    proxies=None, 
+    pin_packages=True,
+) -> None:
+    packages, modules = inspect_imports(
+        file_path, pypi_servers=pypi_servers, proxies=proxies
+    )
 
     if pin_packages:
         packages = __pin_packages(packages)
@@ -82,12 +106,13 @@ def isolate(file_path: str, folder: str, pypi_servers: List[str]=['https://pypi.
     __create_folder(folder, force=True)
 
     # Generate the requirements file
-    requirements_file_path = os.path.join(folder, 'requirements.txt')
+    requirements_file_path = os.path.join(folder, "requirements.txt")
     write_requirements(requirements_file_path, packages)
     
     # Isolate all modules dependencies
     shutil.copyfile(file_path, os.path.join(folder, os.path.basename(file_path)))
     for module in modules:
         dst = os.path.join(folder, module[RELATIVE_PATH])
-        __create_folder(os.path.dirname(dst), force=False) # Create sub folder if necessary
+        # Create sub folder if necessary
+        __create_folder(os.path.dirname(dst), force=False)
         shutil.copyfile(module[ABSOLUTE_PATH], dst)
