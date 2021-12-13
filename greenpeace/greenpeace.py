@@ -21,7 +21,7 @@ def __merge(
     all_modules: Dict,
     visited: set,
     pypi_servers: List[str],
-    proxies = None,
+    proxies=None,
 ):
     file_path = os.path.normpath(file_path)
     if file_path in visited:
