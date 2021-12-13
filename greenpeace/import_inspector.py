@@ -15,8 +15,9 @@ ABSOLUTE_PATH = "absolute_path"
 
 def list_base_packages():
     py_files = [
-        f for f in glob.glob(f"{sys.base_prefix}/Lib/**/*.py", recursive=True) 
-        if "site-packages" not in f and "__pycache__" not in f]
+        f for f in glob.glob(f"{sys.base_prefix}/Lib/**/*.py", recursive=True)
+        if "site-packages" not in f and "__pycache__" not in f
+    ]
     
     packages = set(sys.builtin_module_names)
     base_lib = os.path.normpath(os.path.join(sys.base_prefix, "Lib"))
@@ -31,22 +32,25 @@ def list_base_packages():
         while os.path.normpath(py_folder) != base_lib:
             module_name = f"{os.path.basename(py_folder)}.{module_name}"
             py_folder = os.path.normpath(os.path.join(py_folder, ".."))
-            
+
         packages.add(module_name)
-    
+
     return packages
 
 
 def ipynb_to_py(file_path: str) -> str:
     with open(file_path, "r") as f:
         data = json.load(f)
-        sources = [cell["source"] for cell in data["cells"] if cell["cell_type"] == "code"]
+        sources = [
+            cell["source"] for cell in data["cells"] if cell["cell_type"] == "code"
+        ]
 
         code = []
         for source in sources:
             [code.append(line) for line in source]
             code.append("\n")
         content = str.join("", code)
+
     return content
 
 
@@ -71,7 +75,7 @@ def get_imports(file_path: str) -> set[str]:
                 imports.add(node.module)
     except Exception as e:
         logging.error(f"Failed getting imports on file: {file_path}")
-    
+
     return imports
 
 
@@ -106,16 +110,16 @@ def to_package_candidates(module: str) -> List[str]:
 
 
 def inspect_imports(
-    file_path: str, 
-    pypi_servers: List[str] = ["https://pypi.python.org/pypi"], 
+    file_path: str,
+    pypi_servers: List[str] = ["https://pypi.python.org/pypi"],
     proxies=None,
 ) -> Tuple[List[str], Dict[str, Dict[str, str]]]:
     base_packages = list_base_packages()
     imports = get_imports(file_path)
 
     python_paths = [
-        f 
-        for f in sys.path 
+        f
+        for f in sys.path
         if sys.base_prefix not in os.path.normpath(f) and "site-packages" not in f
     ]
 
@@ -141,15 +145,15 @@ def inspect_imports(
         elif module not in base_packages:
             candidates = to_package_candidates(module)
             package_name = next((
-                c 
-                for p in pypi_servers 
-                for c in candidates 
+                c
+                for p in pypi_servers
+                for c in candidates
                 if package_exists(c, p, proxies=proxies)
             ), None)
 
             if package_name is not None and package_name not in packages:
                 packages.add(package_name)
-    
+
     packages = list(packages)
     packages.sort()
     modules.sort(key=lambda x: x[NAME])

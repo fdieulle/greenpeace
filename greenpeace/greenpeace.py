@@ -54,10 +54,10 @@ def __create_folder(folder: str, force=True) -> str:
 
 
 def cleanup_requirements(
-    folder: str, 
-    pypi_servers: List[str]=["https://pypi.python.org/pypi"], 
-    proxies=None, 
-    pin_packages: bool=True, 
+    folder: str,
+    pypi_servers: List[str]=["https://pypi.python.org/pypi"],
+    proxies=None,
+    pin_packages: bool=True,
     output_path: str=None,
     ignore_folders: List[str]=["__pycache__", "venv", ".git", ".pytest_cache"],
 ):
@@ -66,7 +66,7 @@ def cleanup_requirements(
     ignore_regex = set([re.compile(f) for f in ignore_folders])
 
     packages, modules, visited = set(), {}, set()
-    for root, folders, files, in os.walk(folder):
+    for (root, folders, files) in os.walk(folder):
         if any(r.search(root) is not None for r in ignore_regex):
             folders.clear()
             continue
@@ -74,8 +74,8 @@ def cleanup_requirements(
         [
             __merge(
                 os.path.join(root, f), packages, modules, visited, pypi_servers, proxies
-            ) 
-            for f in files 
+            )
+            for f in files
             if f.endswith(".py") or f.endswith(".ipynb")
         ]
 
@@ -90,10 +90,10 @@ def cleanup_requirements(
 
 
 def isolate(
-    file_path: str, 
-    folder: str, 
-    pypi_servers: List[str]=["https://pypi.python.org/pypi"], 
-    proxies=None, 
+    file_path: str,
+    folder: str,
+    pypi_servers: List[str]=["https://pypi.python.org/pypi"],
+    proxies=None,
     pin_packages=True,
 ) -> None:
     packages, modules = inspect_imports(
@@ -102,13 +102,13 @@ def isolate(
 
     if pin_packages:
         packages = __pin_packages(packages)
-    
+
     __create_folder(folder, force=True)
 
     # Generate the requirements file
     requirements_file_path = os.path.join(folder, "requirements.txt")
     write_requirements(requirements_file_path, packages)
-    
+
     # Isolate all modules dependencies
     shutil.copyfile(file_path, os.path.join(folder, os.path.basename(file_path)))
     for module in modules:
