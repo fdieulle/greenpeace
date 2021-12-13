@@ -64,7 +64,7 @@ def test_write_requirements(tmpdir):
 
     file_path = os.path.join(tmpdir, "requirements.txt")
     gp.write_requirements(file_path, requirements)
-    
+
     assert os.path.exists(file_path)
 
     with open(file_path, mode="r") as f:
@@ -102,7 +102,7 @@ def test_write_requirements_as_list(tmpdir):
 
     file_path = os.path.join(tmpdir, "requirements.txt")
     gp.write_requirements(file_path, packages)
-    
+
     assert os.path.exists(file_path)
 
     with open(file_path, mode="r") as f:

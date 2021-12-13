@@ -15,7 +15,7 @@ ABSOLUTE_PATH = "absolute_path"
 
 def list_base_packages():
     py_files = [
-        f 
+        f
         for f in glob.glob(f"{sys.base_prefix}/Lib/**/*.py", recursive=True)
         if "site-packages" not in f and "__pycache__" not in f
     ]
@@ -151,7 +151,7 @@ def inspect_imports(
                     for p in pypi_servers
                     for c in candidates
                     if package_exists(c, p, proxies=proxies)
-                ), 
+                ),
                 None,
             )
 

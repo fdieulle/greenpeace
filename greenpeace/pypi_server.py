@@ -8,9 +8,9 @@ def fetch_pypi_server(
     package: str,
     pypi_server: str = "https://pypi.python.org/pypi",
     version: str = None,
-    proxies = None,
+    proxies=None,
 ):
-    if pypi_server.endswith('/'):
+    if pypi_server.endswith("/"):
         pypi_server = pypi_server[:-1]
 
     url = (
@@ -55,7 +55,7 @@ def package_exists(
     package: str,
     pypi_server: str = "https://pypi.python.org/pypi",
     version: str = None,
-    proxies = None,
+    proxies=None,
 ) -> bool:
     return (
         fetch_pypi_server(package, pypi_server, version=version, proxies=proxies)

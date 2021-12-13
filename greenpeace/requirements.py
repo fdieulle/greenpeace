@@ -79,7 +79,7 @@ def write_requirements_lines(
             return [f"{p} == {packages[p]}" for p in packages]
         elif isinstance(first, dict):  # Dict of package name with requirement
             return [__write_requirement_line(p, packages[p]) for p in packages]
-    
+
     raise TypeError(
         f"Only List[str], Dict[str, str], Dict[str, Dict[str, str]] ar supported but you give a {type(packages)}"
     )
