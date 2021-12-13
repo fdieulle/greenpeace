@@ -6,13 +6,13 @@ from yarg.exceptions import HTTPError
 
 def fetch_pypi_server(
     package: str,
-    pypi_server: str="https://pypi.python.org/pypi",
-    version: str=None,
-    proxies=None,
+    pypi_server: str = "https://pypi.python.org/pypi",
+    version: str = None,
+    proxies = None,
 ):
     if pypi_server.endswith('/'):
         pypi_server = pypi_server[:-1]
-    
+
     url = (
         f"{pypi_server}/{package}/json"
         if version is None
@@ -44,7 +44,7 @@ def fetch_pypi_server(
 
 def get_latest_version(
     package: str,
-    pypi_server: str="https://pypi.python.org/pypi",
+    pypi_server: str = "https://pypi.python.org/pypi",
     proxies=None,
 ) -> str:
     data = fetch_pypi_server(package, pypi_server, proxies=proxies)
@@ -53,11 +53,11 @@ def get_latest_version(
 
 def package_exists(
     package: str,
-    pypi_server:str="https://pypi.python.org/pypi",
-    version: str=None,
-    proxies=None,
+    pypi_server: str = "https://pypi.python.org/pypi",
+    version: str = None,
+    proxies = None,
 ) -> bool:
     return (
-        fetch_pypi_server(package, pypi_server, version=version, proxies=proxies) 
+        fetch_pypi_server(package, pypi_server, version=version, proxies=proxies)
         is not None
     )

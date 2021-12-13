@@ -21,7 +21,7 @@ def __merge(
     all_modules: Dict, 
     visited: set, 
     pypi_servers: List[str], 
-    proxies=None,
+    proxies = None,
 ):
     file_path = os.path.normpath(file_path)
     if file_path in visited:
@@ -42,7 +42,7 @@ def __merge(
     [all_packages.add(p) for p in packages if p not in all_packages]
 
 
-def __create_folder(folder: str, force=True) -> str:
+def __create_folder(folder: str, force = True) -> str:
     if folder is None or folder == "":
         return folder
 
@@ -55,11 +55,11 @@ def __create_folder(folder: str, force=True) -> str:
 
 def cleanup_requirements(
     folder: str,
-    pypi_servers: List[str]=["https://pypi.python.org/pypi"],
-    proxies=None,
-    pin_packages: bool=True,
-    output_path: str=None,
-    ignore_folders: List[str]=["__pycache__", "venv", ".git", ".pytest_cache"],
+    pypi_servers: List[str] = ["https://pypi.python.org/pypi"],
+    proxies = None,
+    pin_packages: bool = True,
+    output_path: str = None,
+    ignore_folders: List[str] = ["__pycache__", "venv", ".git", ".pytest_cache"],
 ):
     
     ignore_folders if ignore_folders is not None else []
@@ -92,9 +92,9 @@ def cleanup_requirements(
 def isolate(
     file_path: str,
     folder: str,
-    pypi_servers: List[str]=["https://pypi.python.org/pypi"],
-    proxies=None,
-    pin_packages=True,
+    pypi_servers: List[str] = ["https://pypi.python.org/pypi"],
+    proxies = None,
+    pin_packages: bool = True,
 ) -> None:
     packages, modules = inspect_imports(
         file_path, pypi_servers=pypi_servers, proxies=proxies

@@ -13,5 +13,6 @@ from datetime import date, datetime
 from greenpeace.pypi_server import package_exists
 from ._other import foo
 
+
 def bar():
     return foo()

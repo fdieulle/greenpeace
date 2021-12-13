@@ -1,8 +1,6 @@
 import greenpeace as gp
 import os
 
-from greenpeace.requirements import read_requirements
-
 
 def __get_file(name: str) -> str:
     return os.path.join(os.path.dirname(__file__), "files", name)
@@ -26,7 +24,9 @@ def test_isolate_py_script(tmpdir):
     assert os.path.exists(os.path.join(isolated_folder, "_other.py"))
     assert os.path.exists(os.path.join(isolated_folder, "greenpeace", "pypi_server.py"))
 
-    requirements = gp.read_requirements(os.path.join(isolated_folder, "requirements.txt"))
+    requirements = gp.read_requirements(
+        os.path.join(isolated_folder, "requirements.txt")
+    )
     __check_requirement(requirements, "numpy", None, None)
     __check_requirement(requirements, "pandas", None, None)
     __check_requirement(requirements, "requests", "==", "2.26.0")
@@ -45,7 +45,9 @@ def test_isolate_notebook(tmpdir):
     assert os.path.exists(os.path.join(isolated_folder, "_other.py"))
     assert os.path.exists(os.path.join(isolated_folder, "greenpeace", "pypi_server.py"))
 
-    requirements = gp.read_requirements(os.path.join(isolated_folder, "requirements.txt"))
+    requirements = gp.read_requirements(
+        os.path.join(isolated_folder, "requirements.txt")
+    )
     __check_requirement(requirements, "numpy", None, None)
     __check_requirement(requirements, "pandas", None, None)
     __check_requirement(requirements, "requests", "==", "2.26.0")

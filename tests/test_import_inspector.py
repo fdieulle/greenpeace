@@ -1,5 +1,12 @@
 import os
-from greenpeace.import_inspector import to_package_candidates, get_imports, inspect_imports, NAME, RELATIVE_PATH, ABSOLUTE_PATH
+from greenpeace.import_inspector import (
+    to_package_candidates,
+    get_imports,
+    inspect_imports,
+    NAME,
+    RELATIVE_PATH,
+    ABSOLUTE_PATH,
+)
 
 
 def __get_file(name: str) -> str:
@@ -10,14 +17,32 @@ def test_get_imports():
     py_file = __get_file("_script.py")
     imports = get_imports(py_file)
 
-    assert imports == set(["math", "numpy", "pandas", "random", "datetime", "greenpeace.pypi_server", "_other"])
+    assert imports == set(
+        [
+            "math",
+            "numpy",
+            "pandas",
+            "random",
+            "datetime",
+            "greenpeace.pypi_server",
+            "_other",
+        ]
+    )
 
 
 def test_get_imports_from_notebook():
     py_file = __get_file("notebook.ipynb")
     imports = get_imports(py_file)
 
-    assert imports == set(["numpy", "pandas", "random", "greenpeace.pypi_server", "_other"])
+    assert imports == set(
+        [
+            "numpy",
+            "pandas",
+            "random",
+            "greenpeace.pypi_server",
+            "_other",
+        ]
+    )
 
 
 def test_to_package_candidates():
@@ -36,7 +61,7 @@ def test_inspect_imports():
     packages, modules = inspect_imports(py_file)
 
     assert packages == ["numpy", "pandas", "requests", "yarg"]
-    
+
     assert modules[0][NAME] == "_other"
     assert modules[0][RELATIVE_PATH] == "_other.py"
     assert modules[0][ABSOLUTE_PATH].endswith("\\tests\\files\\_other.py")

@@ -15,10 +15,11 @@ ABSOLUTE_PATH = "absolute_path"
 
 def list_base_packages():
     py_files = [
-        f for f in glob.glob(f"{sys.base_prefix}/Lib/**/*.py", recursive=True)
+        f 
+        for f in glob.glob(f"{sys.base_prefix}/Lib/**/*.py", recursive=True)
         if "site-packages" not in f and "__pycache__" not in f
     ]
-    
+
     packages = set(sys.builtin_module_names)
     base_lib = os.path.normpath(os.path.join(sys.base_prefix, "Lib"))
     for py_file in py_files:
@@ -65,7 +66,7 @@ def get_imports(file_path: str) -> set[str]:
         else:
             with open(file_path, "r") as f:
                 content = f.read()
-        
+
         tree = ast.parse(content)
         for node in ast.walk(tree):
             if isinstance(node, ast.Import):
@@ -126,7 +127,7 @@ def inspect_imports(
     packages = set()
     modules = []
 
-    stack = [(i, file_path) for i in imports] # Copy required here
+    stack = [(i, file_path) for i in imports]  # Copy required here
     while len(stack) > 0:
         module, py_file = stack.pop()
         python_paths_ext = [os.path.dirname(py_file)] + python_paths
@@ -144,12 +145,15 @@ def inspect_imports(
                 stack.append((new_import, py_file))
         elif module not in base_packages:
             candidates = to_package_candidates(module)
-            package_name = next((
-                c
-                for p in pypi_servers
-                for c in candidates
-                if package_exists(c, p, proxies=proxies)
-            ), None)
+            package_name = next(
+                (
+                    c
+                    for p in pypi_servers
+                    for c in candidates
+                    if package_exists(c, p, proxies=proxies)
+                ), 
+                None,
+            )
 
             if package_name is not None and package_name not in packages:
                 packages.add(package_name)
