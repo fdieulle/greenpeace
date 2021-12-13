@@ -3,9 +3,14 @@ import sys
 import glob
 import ast
 import logging
-from typing import List
+from typing import List, Tuple, Dict
 import json
-from greenpeace.pypi_server import package_exists
+from .pypi_server import package_exists
+
+
+NAME = 'name'
+RELATIVE_PATH = 'relative_path'
+ABSOLUTE_PATH = 'absolute_path'
 
 
 def list_base_packages():
@@ -76,9 +81,9 @@ def __as_local_module(module: str, python_paths: List[str]=['.']) -> List[str]:
         absoulte_path = os.path.join(python_path, relative_path)
         if os.path.exists(absoulte_path):
             return {
-                'Name': module, 
-                'RelativePath': os.path.normpath(relative_path), 
-                'AbsolutePath': os.path.normpath(absoulte_path)
+                NAME: module, 
+                RELATIVE_PATH: os.path.normpath(relative_path), 
+                ABSOLUTE_PATH: os.path.normpath(absoulte_path)
             }
     return None
 
@@ -100,7 +105,7 @@ def to_package_candidates(module: str) -> List[str]:
     return result
 
 
-def inspect_imports(file_path: str, pypi_servers: List[str]=['https://pypi.python.org/pypi'], proxies=None):
+def inspect_imports(file_path: str, pypi_servers: List[str]=['https://pypi.python.org/pypi'], proxies=None) -> Tuple[List[str], Dict[str, Dict[str, str]]]:
     base_packages = list_base_packages()
     imports = get_imports(file_path)
 
@@ -118,7 +123,7 @@ def inspect_imports(file_path: str, pypi_servers: List[str]=['https://pypi.pytho
             local_module = __as_local_module(module, python_paths_ext)
             modules.append(local_module)
 
-            py_file = local_module['AbsolutePath']
+            py_file = local_module[ABSOLUTE_PATH]
             local_imports = get_imports(py_file)
             # Walk on new imports
             for new_import in local_imports.difference(imports):
@@ -132,5 +137,5 @@ def inspect_imports(file_path: str, pypi_servers: List[str]=['https://pypi.pytho
     
     packages = list(packages)
     packages.sort()
-    modules.sort(key=lambda x: x['Name'])
+    modules.sort(key=lambda x: x[NAME])
     return packages, modules

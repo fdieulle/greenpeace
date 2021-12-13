@@ -1,5 +1,5 @@
 import os
-from greenpeace.import_inspector import to_package_candidates, get_imports, inspect_imports
+from greenpeace.import_inspector import to_package_candidates, get_imports, inspect_imports, NAME, RELATIVE_PATH, ABSOLUTE_PATH
 
 
 def __get_file(name: str) -> str:
@@ -37,9 +37,9 @@ def test_inspect_imports():
 
     assert packages == ['numpy', 'pandas', 'requests', 'yarg']
     
-    assert modules[0]['Name'] == '_other'
-    assert modules[0]['RelativePath'] == '_other.py'
-    assert modules[0]['AbsolutePath'].endswith('\\tests\\files\\_other.py')
-    assert modules[1]['Name'] == 'greenpeace.pypi_server'
-    assert modules[1]['RelativePath'] == 'greenpeace\\pypi_server.py'
-    assert modules[1]['AbsolutePath'].endswith('\\greenpeace\\pypi_server.py')
+    assert modules[0][NAME] == '_other'
+    assert modules[0][RELATIVE_PATH] == '_other.py'
+    assert modules[0][ABSOLUTE_PATH].endswith('\\tests\\files\\_other.py')
+    assert modules[1][NAME] == 'greenpeace.pypi_server'
+    assert modules[1][RELATIVE_PATH] == 'greenpeace\\pypi_server.py'
+    assert modules[1][ABSOLUTE_PATH].endswith('\\greenpeace\\pypi_server.py')
