@@ -14,9 +14,15 @@ ABSOLUTE_PATH = "absolute_path"
 
 
 def list_base_packages():
+
+    if sys.platform == "win32":
+        sub_path = "Lib"
+    else: 
+        sub_path = f"lib/python{sys.version_info.major}.{sys.version_info.minor}"
+
     py_files = [
         f
-        for f in glob.glob(f"{sys.base_prefix}/Lib/**/*.py", recursive=True)
+        for f in glob.glob(f"{sys.base_prefix}/{sub_path}/**/*.py", recursive=True)
         if "site-packages" not in f and "__pycache__" not in f
     ]
 
