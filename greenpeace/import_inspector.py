@@ -3,7 +3,7 @@ import sys
 import glob
 import ast
 import logging
-from typing import List, Tuple, Dict
+from typing import List, Tuple, Dict, Set
 import json
 from .pypi_server import package_exists
 
@@ -55,7 +55,7 @@ def ipynb_to_py(file_path: str) -> str:
     return content
 
 
-def get_imports(file_path: str) -> set[str]:
+def get_imports(file_path: str) -> Set[str]:
     if file_path is None or not os.path.exists(file_path):
         return set()
 
