@@ -41,8 +41,9 @@ jobs:
           pip install -r requirements.txt
       - name: Build package
         run: pip install .
-      - name: Run tests
+      - name: Install tests framework
         run: |
           pip install codecov
           pip install pytest-cov
-          pytest --cov-report=xml --cov=greenpeace test/
+      - name: Run tests
+        run: pytest --cov-report=xml --cov=greenpeace tests/
