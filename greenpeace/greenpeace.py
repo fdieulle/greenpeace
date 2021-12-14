@@ -59,7 +59,7 @@ def cleanup_requirements(
     proxies=None,
     pin_packages: bool = True,
     output_path: str = None,
-    ignore_folders: List[str] = ["__pycache__", "venv", ".git", ".pytest_cache"],
+    ignore_folders: List[str] = ["__pycache__", "venv", ".git", ".pytest_cache", ".eggs"],
 ):
 
     ignore_folders if ignore_folders is not None else []
