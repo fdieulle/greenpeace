@@ -17,7 +17,7 @@ def list_base_packages():
 
     if sys.platform == "win32":
         sub_path = "Lib"
-    else: 
+    else:
         sub_path = f"lib/python{sys.version_info.major}.{sys.version_info.minor}"
 
     py_files = [
