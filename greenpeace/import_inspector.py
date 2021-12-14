@@ -14,7 +14,6 @@ ABSOLUTE_PATH = "absolute_path"
 
 
 def list_base_packages():
-
     if sys.platform == "win32":
         sub_path = "Lib"
     else:
@@ -27,7 +26,7 @@ def list_base_packages():
     ]
 
     packages = set(sys.builtin_module_names)
-    base_lib = os.path.normpath(os.path.join(sys.base_prefix, "Lib"))
+    base_lib = os.path.normpath(os.path.join(sys.base_prefix, sub_path))
     for py_file in py_files:
         module_name = os.path.basename(py_file)[:-3]
         py_folder = os.path.dirname(py_file)
