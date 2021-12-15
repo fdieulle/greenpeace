@@ -64,7 +64,7 @@ def test_inspect_imports():
 
     assert modules[0][NAME] == "_other"
     assert modules[0][RELATIVE_PATH] == "_other.py"
-    assert modules[0][ABSOLUTE_PATH].endswith("\\tests\\files\\_other.py")
+    assert modules[0][ABSOLUTE_PATH].endswith(os.path.join("tests", "files", "_other.py"))
     assert modules[1][NAME] == "greenpeace.pypi_server"
-    assert modules[1][RELATIVE_PATH] == "greenpeace\\pypi_server.py"
-    assert modules[1][ABSOLUTE_PATH].endswith("\\greenpeace\\pypi_server.py")
+    assert modules[1][RELATIVE_PATH] == os.path.join("greenpeace", "pypi_server.py")
+    assert modules[1][ABSOLUTE_PATH].endswith(os.path.join("greenpeace", "pypi_server.py"))
