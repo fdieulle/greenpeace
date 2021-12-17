@@ -1,13 +1,18 @@
 from setuptools import setup, find_packages
+import os
 
 
 def readme():
     with open("README.md", "r", encoding="utf-8") as f:
         return f.read()
 
+version = "0.1"
+if "PROJECT_VERSION" in os.environ:
+    version = os.environ["PROJECT_VERSION"]
 
 setup(
     name="greenpeace",
+    version=version,
     author="Fabien Dieulle",
     author_email="fabiendieulle@hotmail.fr",
     description="Python environment clean up.",
@@ -24,7 +29,5 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
-    ],
-    use_scm_version=True,
-    setup_requires=["setuptools_scm"],
+    ]
 )
