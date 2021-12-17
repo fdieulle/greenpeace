@@ -6,6 +6,7 @@ def readme():
     with open("README.md", "r", encoding="utf-8") as f:
         return f.read()
 
+
 version = "0.1"
 if "PROJECT_VERSION" in os.environ:
     version = os.environ["PROJECT_VERSION"]
