@@ -10,6 +10,7 @@ def readme():
 version = "0.1"
 if "PROJECT_VERSION" in os.environ:
     version = os.environ["PROJECT_VERSION"]
+    print(f"version found: {version}")
 
 setup(
     name="greenpeace",
