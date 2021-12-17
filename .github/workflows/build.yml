@@ -47,3 +47,8 @@ jobs:
           pip install pytest-cov
       - name: Run tests
         run: pytest --cov-report=xml --cov=greenpeace tests/
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
