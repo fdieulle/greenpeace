@@ -34,7 +34,7 @@ jobs:
           echo $PROJECT_VERSION
           echo "PROJECT_VERSION=$PROJECT_VERSION" >> $GITHUB_ENV
       - name: Build package
-        run: pip install .
+        run: python setup.py sdist bdist_wheel
       - name: Run tests
         run: pytest tests/
       - name: Release Notes
