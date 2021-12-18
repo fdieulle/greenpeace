@@ -52,5 +52,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           skip_existing: true
-          user: fdieulle
+          user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
