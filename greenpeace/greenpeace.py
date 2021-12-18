@@ -69,9 +69,9 @@ def cleanup_requirements(
 ):
     """Generate requirements from the source code
 
-    Generate your package dependencies requirements directly from 
-    your source code. Python scripts `.py` and notebooks `.ipynb` 
-    are supported. You can also pin the package versions extracted 
+    Generate your package dependencies requirements directly from
+    your source code. Python scripts `.py` and notebooks `.ipynb`
+    are supported. You can also pin the package versions extracted
     with your current environment.
 
     Args:
@@ -123,8 +123,8 @@ def isolate(
 ) -> None:
     """Isolate a python script or a notebook.
 
-    Extract from a python script or a notbook the modules dependencies 
-    used in your project. This feature is useful if you want to isolate 
+    Extract from a python script or a notbook the modules dependencies
+    used in your project. This feature is useful if you want to isolate
     a script or notebook from you project into a dedicated folder.
 
     Args:

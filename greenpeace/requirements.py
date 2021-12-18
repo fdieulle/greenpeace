@@ -27,7 +27,7 @@ def read_requirements_lines(lines: List[str]) -> Dict[str, Dict[str, str]]:
         lines (List[str]): Lines from a requirements file
 
     Returns:
-        Dict[str, Dict[str, str]]: Returns the package requirements info. 
+        Dict[str, Dict[str, str]]: Returns the package requirements info.
             Each package with its specifier and its version.
 
     Examples:
@@ -69,7 +69,7 @@ def read_requirements(file_path: str) -> Dict[str, Dict[str, str]]:
         file_path (str): Requirements file path
 
     Returns:
-        Dict[str, Dict[str, str]]: Returns the package requirements info. 
+        Dict[str, Dict[str, str]]: Returns the package requirements info.
             Each package with its specifier and its version.
 
     Examples:

@@ -120,7 +120,7 @@ def inspect_imports(
     pypi_servers: List[str] = ["https://pypi.python.org/pypi"],
     proxies=None,
 ) -> Tuple[List[str], Dict[str, Dict[str, str]]]:
-    """Inspect imports from a python script or notebookk
+    """Inspect imports from a python script or notebook
 
     This inpsection returns all packages and module dependencies used by a given script.
 
@@ -130,7 +130,7 @@ def inspect_imports(
         proxies ([type], optional): Specify proxies if needed. Defaults to None.
 
     Returns:
-        Tuple[List[str], Dict[str, Dict[str, str]]]: Returns a tuple with packages list as left and modules dependencies as right
+        Tuple[List[str], Dict[str, Dict[str, str]]]: Returns a tuple with packages list as left and modules dependencies as right.
     """
     base_packages = list_base_packages()
     imports = get_imports(file_path)
