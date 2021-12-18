@@ -21,6 +21,19 @@ def __try_read_specifier(
 
 
 def read_requirements_lines(lines: List[str]) -> Dict[str, Dict[str, str]]:
+    """Read requirements lines
+
+    Args:
+        lines (List[str]): Lines from a requirements file
+
+    Returns:
+        Dict[str, Dict[str, str]]: Returns the package requirements info. 
+            Each package with its specifier and its version.
+
+    Examples:
+        >>> import greenpeace as gp
+        >>> gp.read_requirements_lines(["numpy==1.20.0", "pandas > 1.3.3"])
+    """
     packages = {}
     for line in lines:
         line = line.strip()
@@ -50,6 +63,19 @@ def read_requirements_lines(lines: List[str]) -> Dict[str, Dict[str, str]]:
 
 
 def read_requirements(file_path: str) -> Dict[str, Dict[str, str]]:
+    """Read requirements file
+
+    Args:
+        file_path (str): Requirements file path
+
+    Returns:
+        Dict[str, Dict[str, str]]: Returns the package requirements info. 
+            Each package with its specifier and its version.
+
+    Examples:
+        >>> import greenpeace as gp
+        >>> gp.read_requirements("./requirements.txt")
+    """
     with open(file_path, mode="r") as f:
         lines = f.readlines()
     return read_requirements_lines(lines)
@@ -71,6 +97,17 @@ def __write_requirement_line(package: str, requirement: Dict[str, str]) -> None:
 def write_requirements_lines(
     packages: Union[List[str], Dict[str, str], Dict[str, Dict[str, str]]]
 ) -> List[str]:
+    """Write requirements lines
+
+    Args:
+        packages (Union[List[str], Dict[str, str], Dict[str, Dict[str, str]]]): package requirements description.
+
+    Raises:
+        TypeError: Input type not supported
+
+    Returns:
+        List[str]: Returns the requirements lines generated.
+    """
     if isinstance(packages, list):  # Simple list of package names
         return [p for p in packages]
     elif isinstance(packages, dict):
@@ -94,6 +131,12 @@ def write_requirements(
     file_path: str,
     packages: Union[List[str], Dict[str, str], Dict[str, Dict[str, str]]],
 ) -> None:
+    """Write requirements file
+
+    Args:
+        file_path (str): Requirements file path
+        packages (Union[List[str], Dict[str, str], Dict[str, Dict[str, str]]]): package requirements description.
+    """
     with open(file_path, mode="w") as f:
         [__write_line(f, l) for l in write_requirements_lines(packages)]
 

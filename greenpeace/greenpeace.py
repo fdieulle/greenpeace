@@ -67,6 +67,25 @@ def cleanup_requirements(
         ".eggs",
     ],
 ):
+    """Generate requirements from the source code
+
+    Generate your package dependencies requirements directly from 
+    your source code. Python scripts `.py` and notebooks `.ipynb` 
+    are supported. You can also pin the package versions extracted 
+    with your current environment.
+
+    Args:
+        folder (str): project folder to cleanup.
+        pypi_servers (List[str], optional): pypi server list to check package existency. Defaults to ["https://pypi.python.org/pypi"].
+        proxies ([type], optional): Specify proxies if needed. Defaults to None.
+        pin_packages (bool, optional): Pin packages version based on your current environment. Defaults to True.
+        output_path (str, optional): The requirements file path. None will be ./requirements.txt. Defaults to None.
+        ignore_folders (List[str], optional): Ignore some folder in your project. Defaults to [ "__pycache__", "venv", ".git", ".pytest_cache", ".eggs", ].
+
+    Examples:
+        >>> import greenpeace as gp
+        >>> gp.cleanup_requirements(".", output_path="requirements.txt")
+    """
 
     ignore_folders if ignore_folders is not None else []
     ignore_regex = set([re.compile(f) for f in ignore_folders])
@@ -102,6 +121,23 @@ def isolate(
     proxies=None,
     pin_packages: bool = True,
 ) -> None:
+    """Isolate a python script or a notebook.
+
+    Extract from a python script or a notbook the modules dependencies 
+    used in your project. This feature is useful if you want to isolate 
+    a script or notebook from you project into a dedicated folder.
+
+    Args:
+        file_path (str): Python script or notebook file path to isolate.
+        folder (str): Destination isolation folder.
+        pypi_servers (List[str], optional): pypi server list to check package existency. Defaults to ["https://pypi.python.org/pypi"].
+        proxies ([type], optional): Specify proxies if needed. Defaults to None.
+        pin_packages (bool, optional): Pin packages version based on your current environment. Defaults to True.
+
+    Examples:
+        >>> import greenpeace as gp
+        >>> gp.isolate("[YOUR_PATH]/notebook.ipynb", "./isolated")
+    """
     packages, modules = inspect_imports(
         file_path, pypi_servers=pypi_servers, proxies=proxies
     )
