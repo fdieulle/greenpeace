@@ -18,7 +18,7 @@ import greenpeace as gp
 gp.cleanup_requirements(".", output_path="requirements.txt")
 ```
 
-The package is also able to extract from a python script or a notbook the modules dependencies in your project. This feature is useful if you want to isolate a script or notebook from you project into a dedicated folder.
+The package is also able to extract from a python script or a notbook the modules dependencies in your project. This feature is useful if you want to isolate a script or a notebook from your project into a dedicated folder.
 
 ```python
 import greenpeace as gp
